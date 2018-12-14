@@ -1,4 +1,8 @@
 from django.db.models import Q
+from rest_framework.filters import (
+    SearchFilter,
+    OrderingFilter,
+)
 
 from rest_framework.generics import (
     CreateAPIView,
@@ -46,6 +50,8 @@ class PostDetailAPIView(RetrieveAPIView):
 
 class PostListAPIView(ListAPIView):
     serializer_class = PostListSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title', 'content', 'user__first_name']
 
     def get_queryset(self, *args, **kwargs):
         # queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
